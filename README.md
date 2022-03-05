@@ -54,7 +54,7 @@ T-GCN: A temporal graph convolutional network for traffic prediction
 The manuscript can be visited at https://ieeexplore.ieee.org/document/8809901   or  https://arxiv.org/abs/1811.05320 
 
 # Moreover
-Miss You Baby! :heartpulse:
+:heartpulse:
 
 # e-mail：zzb1185@126.com
 
