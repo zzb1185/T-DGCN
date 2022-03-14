@@ -9,6 +9,20 @@ import numpy as np
 import pandas as pd
 import pickle as pkl
 
+def load_testtdgcn_data(dataset):
+    cq504_adj = pd.read_csv(r'data/testdata/test_OHe.csv', header=None)
+    adj = np.mat(cq504_adj)
+    cq504_cql = pd.read_csv(r'data/testdata/CBM_Production.csv')
+    cq504_cql = cq504_cql.fillna(0)
+    return cq504_cql, adj
+
+def load_testtgcn_data(dataset):
+    cq504_adj = pd.read_csv(r'data/testdata/test_OH1.csv', header=None)
+    adj = np.mat(cq504_adj)
+    cq504_cql = pd.read_csv(r'data/testdata/CBM_Production.csv')
+    cq504_cql = cq504_cql.fillna(0)
+    return cq504_cql, adj
+
 def load_sz_data(dataset):
     sz_adj = pd.read_csv(r'data/sz_adj.csv',header=None)
     adj = np.mat(sz_adj)
@@ -22,19 +36,19 @@ def load_los_data(dataset):
     return los_tf, adj
 
 
-def load_432350_data(dataset):
-    cq504_adj = pd.read_csv(r'data/432_1800_350/432_1800_OHe_double_350.csv',header=None)
-    adj = np.mat(cq504_adj)
-    cq504_cql = pd.read_csv(r'data/432_1800_350/432_1800_cql_00001.csv')
-    cq504_cql = cq504_cql.fillna(0)
-    return cq504_cql, adj
-
-def load_432350duizhao_data(dataset):
-    cq504_adj = pd.read_csv(r'data/432_1800_350对照/432_1800_OH1_double.csv',header=None)
-    adj = np.mat(cq504_adj)
-    cq504_cql = pd.read_csv(r'data/432_1800_350对照/432_1800_cql_00001.csv')
-    cq504_cql = cq504_cql.fillna(0)
-    return cq504_cql, adj
+# def load_432350_data(dataset):
+#     cq504_adj = pd.read_csv(r'data/432_1800_350/432_1800_OHe_double_350.csv',header=None)
+#     adj = np.mat(cq504_adj)
+#     cq504_cql = pd.read_csv(r'data/432_1800_350/432_1800_cql_00001.csv')
+#     cq504_cql = cq504_cql.fillna(0)
+#     return cq504_cql, adj
+#
+# def load_432350duizhao_data(dataset):
+#     cq504_adj = pd.read_csv(r'data/432_1800_350对照/432_1800_OH1_double.csv',header=None)
+#     adj = np.mat(cq504_adj)
+#     cq504_cql = pd.read_csv(r'data/432_1800_350对照/432_1800_cql_00001.csv')
+#     cq504_cql = cq504_cql.fillna(0)
+#     return cq504_cql, adj
 
 
 def preprocess_data(data, time_len, rate, seq_len, pre_len):

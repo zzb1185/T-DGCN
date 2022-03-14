@@ -31,9 +31,9 @@ flags.DEFINE_integer('seq_len',7, '  time length of inputs.[7,14,21]')
 flags.DEFINE_integer('pre_len', 1, 'time length of prediction.[1,3,5,7,14]')
 flags.DEFINE_float('train_rate', 0.8, 'rate of training set.')
 flags.DEFINE_integer('batch_size', 32, 'batch size.')
-flags.DEFINE_string('dataset', '432_350',
-                    '432_350 or 432_350_1')
-flags.DEFINE_string('model_name', 'tdgcn', 'tgcn1')
+flags.DEFINE_string('dataset', 'test_tgcn',
+                    'test_tdgcn or test_tgcn')
+flags.DEFINE_string('model_name', 'tgcn', 'tdgcn or tgcn')
 model_name = FLAGS.model_name
 data_name = FLAGS.dataset
 train_rate = FLAGS.train_rate
@@ -82,6 +82,24 @@ def TDGCN(_X, _weights, _biases):
     output = tf.reshape(output, shape=[-1,num_nodes])
     return output, m, states
 
+def TGCN(_X, _weights, _biases):
+    ###
+    cell_1 = tgcnCell(gru_units, adj, num_nodes=num_nodes)
+    cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
+    _X = tf.unstack(_X, axis=1)
+    outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
+    m = []
+    for i in outputs:
+        o = tf.reshape(i,shape=[-1,num_nodes,gru_units])
+        o = tf.reshape(o,shape=[-1,gru_units])
+        m.append(o)
+    last_output = m[-1]
+    output = tf.matmul(last_output, _weights['out']) + _biases['out']
+    output = tf.reshape(output,shape=[-1,num_nodes,pre_len])
+    output = tf.transpose(output, perm=[0,2,1])
+    output = tf.reshape(output, shape=[-1,num_nodes])
+    return output, m, states
+
 def GRU(_X, _weights, _biases):
     ###
     cell_1 = GRUCell(gru_units, num_nodes=num_nodes)
@@ -113,8 +131,8 @@ biases = {
 if model_name == 'tdgcn':
     pred,ttts,ttto = TDGCN(inputs, weights, biases)
 
-if model_name == 'tgcn1':
-    pred,ttts,ttto = TDGCN(inputs, weights, biases)
+if model_name == 'tgcn':
+    pred,ttts,ttto = TGCN(inputs, weights, biases)
 
 y_pred = pred
       
