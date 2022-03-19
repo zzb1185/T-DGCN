@@ -25,7 +25,7 @@ time_start = time.time()
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_float('learning_rate', 0.001, 'Initial learning rat e.')
-flags.DEFINE_integer('training_epoch', 500, 'N umber of epochs to train.')
+flags.DEFINE_integer('training_epoch', 3000, 'N umber of epochs to train.')
 flags.DEFINE_integer('gru_units', 128, 'hidden units of gru.[8,16,32,64,128,144]')
 flags.DEFINE_integer('seq_len',7, '  time length of inputs.[7,14,21]')
 flags.DEFINE_integer('pre_len', 1, 'time length of prediction.[1,3,5,7,14]')
